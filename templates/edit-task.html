@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Tasks</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<header>
+    <h1>Edit Task</h1>
+    <a href="/">Home</a>
+</header>
+<form method="post" action="/edit-product-post/{{.ID}}">
+    <label for="Title">title:</label>
+    <input type="text" name="name" value="{{.Name}}" required><br>
+    <label for="Completed">Completed:</label>
+    <input type="checkbox" name="completed" value="{{.Completed}}" required><br>
+    <button type="submit">Save Changes</button>
+</form>
+<a href="/admin">Back</a>
+</body>
+</html>

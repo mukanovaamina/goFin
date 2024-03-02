@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Task</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<header>
+    <h1>Add a new task</h1>
+    <a href="/">Home</a>
+</header>
+<form method="post" action="/add-task-post">
+    <label for="Title">Title:</label>
+    <input type="text" name="title" required><br>
+    <label for="Completed">Completed:</label>
+    <input type="checkbox" name="completed"><br> <!-- Use checkbox for boolean values -->
+    <button type="submit">Add Task</button>
+</form>
+<a href="/admin">Back</a>
+</body>
+</html>
