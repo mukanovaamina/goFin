@@ -35,7 +35,7 @@
     <select name="sort" id="sort">
         <option value="">Default</option>
         <option value="Title" {{if eq .SortBy "Title"}}selected{{end}}>Title</option>
-        <option value="Completed" {{if eq .SortBy "completed"}}selected{{end}}>Completed status</option>
+        <option value="completed" {{if eq .SortBy "completed"}}selected{{end}}>Completed status</option>
     </select>
     <button type="submit">Apply Sort</button>
 </form>
@@ -46,11 +46,11 @@
 <table border="1">
     <tr>
         <th>Title</th>
-        <th>Status</th>
+        <th>Completed</th>
     </tr>
     {{range .Task}}
     <tr>
-        <td>{{.Tile}}</td>
+        <td>{{.Title}}</td>
         <td>{{.Completed}}</td>
     </tr>
     {{end}}
@@ -61,19 +61,7 @@
     <a href="?page={{.NextPage}}&pageSize={{.PageSize}}">Next</a>
 </div>
 
-<section id="news">
-    <h2>Latest News:</h2>
-    <ul>
-        {{range .News}}
-        <li>
-            <strong>{{.Title}}</strong>
-            <p>{{.Description}}</p>
-            <p>Source: {{.Source}}</p>
-            <a href="{{.URL}}" target="_blank">Read more</a>
-        </li>
-        {{end}}
-    </ul>
-</section>
+
 
 </body>
 </html>
