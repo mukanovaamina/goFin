@@ -16,6 +16,14 @@
     <a href="/login">Login</a>
     {{ end }}
 </header>
+<form action="/add-product-post" method="post">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="completed">Completed:</label><br>
+    <input type="checkbox" id="completed" name="completed"><br>
+    <button type="submit" value="Add Task">Add Task</button>
+</form>
+
 <form action="/" method="get">
     <label for="filter">Filter:</label>
     <input type="text" id="filter" name="filter" placeholder="Enter filter" value="{{.Filter}}">
