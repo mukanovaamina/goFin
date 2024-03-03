@@ -535,6 +535,28 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/admin", http.StatusSeeOther)
 }
+
+func AddProductPostHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
+		return
+	}
+
+	title := r.FormValue("title")
+	completed := r.FormValue("completed") == "on"
+
+	_, err := db.Exec("INSERT INTO tasks (title, completed) VALUES ($1, $2)", title, completed)
+	if err != nil {
+		log.Error("Error inserting task into database:", err)
+		http.Error(w, "Error inserting task into database", http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("New task added: Title=%s, Completed=%t\n", title, completed)
+
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+}
+
 func AddProductHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := templates.Lookup("add-product.html")
 	if tmpl == nil {
@@ -545,24 +567,25 @@ func AddProductHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-func AddProductPostHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
-		return
-	}
-
-	_, err := db.Exec("INSERT INTO Task (Title, completed) VALUES ($1, $2)",
-		r.FormValue("Title"), r.FormValue("completed"))
-	if err != nil {
-		fmt.Println("Error inserting into database:", err)
-		http.Error(w, "Error inserting into database", http.StatusInternalServerError)
-		return
-	}
-
-	fmt.Printf("New task added: Title=%s, completed=%s\n", r.FormValue("Title"), r.FormValue("completed"))
-
-	http.Redirect(w, r, "/admin", http.StatusSeeOther)
-}
+//
+//func AddProductPostHandler(w http.ResponseWriter, r *http.Request) {
+//	if r.Method != http.MethodPost {
+//		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
+//		return
+//	}
+//
+//	_, err := db.Exec("INSERT INTO Task (Title, completed) VALUES ($1, $2)",
+//		r.FormValue("Title"), r.FormValue("completed"))
+//	if err != nil {
+//		fmt.Println("Error inserting into database:", err)
+//		http.Error(w, "Error inserting into database", http.StatusInternalServerError)
+//		return
+//	}
+//
+//	fmt.Printf("New task added: Title=%s, completed=%s\n", r.FormValue("Title"), r.FormValue("completed"))
+//
+//	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+//}
 
 func EditProductHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Path[len("/edit/"):]
