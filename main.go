@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"database/sql"
+	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
+	"golang.org/x/time/rate"
 	//"fmt"
 	"html/template"
 	"io"
@@ -12,9 +15,6 @@ import (
 	"strconv"
 	"syscall"
 	"time"
-
-	"github.com/sirupsen/logrus"
-	"golang.org/x/time/rate"
 )
 
 // Product structure represents a product in the store
@@ -35,7 +35,7 @@ var (
 	templates = template.Must(template.ParseGlob("templates/*.html"))
 )
 
-func initDB() *sql.DB {
+func initDB(log *logrus.Logger) *sql.DB {
 	connStr := "user=postgres password=Aruzhan7 dbname=amina sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -240,7 +240,7 @@ func main() {
 	}
 
 	// Initialize database
-	db = initDB()
+	db = initDB(log)
 	defer db.Close()
 
 	// Set up HTTP server
